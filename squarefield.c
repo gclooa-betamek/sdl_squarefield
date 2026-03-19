@@ -41,7 +41,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
         SDL_GetDisplayBounds(displays[i], &state->bounds[i]);
 
         state->windows[i] = SDL_CreateWindow( 
-            "SCRSVR", 
+            "Squarefield", 
             state->bounds[i].w, 
             state->bounds[i].h, 
             SDL_WINDOW_BORDERLESS
@@ -143,8 +143,9 @@ SDL_AppResult SDL_AppIterate(void *appstate)
         SDL_RenderClear(state->renderers[i]);
     }
 
-    looa_Grid(state);
+    // looa_Grid(state);
     looa_Image(state);
+    looa_Squarefield(state);
     
     for (int i = 0; i < state->display_count; i++) {
         SDL_RenderPresent(state->renderers[i]);
@@ -173,5 +174,6 @@ void SDL_AppQuit(void *appstate, SDL_AppResult result)
     SDL_free(state->textures);
     SDL_free(state);
 
+    SDL_Log("Program exiting. Press any key to continue...");
     SDL_Quit();
 }
