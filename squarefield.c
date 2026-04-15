@@ -56,6 +56,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
             SDL_LOGICAL_PRESENTATION_LETTERBOX
         );
         SDL_SetRenderVSync(state->renderers[i], 1);
+        SDL_SetRenderDrawBlendMode(state->renderers[i], SDL_BLENDMODE_BLEND);
 
         SDL_Surface *surface = NULL;
         char *png_path = NULL;

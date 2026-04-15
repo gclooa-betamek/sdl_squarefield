@@ -55,26 +55,29 @@ void looa_Grid(App *state)
 void looa_Squarefield(App *state)
 {
     for (int i = 0; i < state->display_count; i++) {
-        SDL_SetRenderDrawColor(state->renderers[i], 255, 153, 0, 255);
+        SDL_SetRenderDrawColor(state->renderers[i], 255, 153, 0, 0);
         int center = state->bounds[i].w / 2;
         int horizon = state->bounds[i].h / 2;
         float spacing = 4.0f;
         grid_scroll += 0.005f;
 
-        for (int iy = 1; iy < 11; iy++) {
+        for (int iy = 0; iy < 10; iy++) {
             float depth = fmodf(iy * spacing + grid_scroll * 10, 40);
             float t = depth / 40.0f;
             float scale = t * t;
             float y = horizon + scale * (state->bounds[i].h - horizon - 2);
 
+            Uint8 alpha = (Uint8)(powf(t, 0.5f) * 255);
+            SDL_SetRenderDrawColor(state->renderers[i], 255, 153, 0, alpha);
+
             for (int ix = -9; ix <= 9; ix++) {
-                float x_top = center + ix * 100;
-                float x_bottom = center + ix * 400;
-                squares[ix+9].x = x_top;
+                float x = center + ix * (100 + (400 - 100) * scale);
+                float size = 2 + 10 * scale;
+                squares[ix+9].x = x;
                 squares[ix+9].y = y;
-                squares[ix+9].w = (float) 2;
-                squares[ix+9].h = (float) 2;
-                SDL_RenderFillRects(state->renderers[i], &squares[ix+9], 1);
+                squares[ix+9].w = size;
+                squares[ix+9].h = size;
+                SDL_RenderRects(state->renderers[i], &squares[ix+9], 1);
             }
         }
     }
